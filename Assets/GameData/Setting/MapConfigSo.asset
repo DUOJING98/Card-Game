@@ -21,10 +21,10 @@ MonoBehaviour:
     roomType: 11
   - min: 2
     max: 4
-    roomType: 14
+    roomType: 6
   - min: 2
     max: 4
-    roomType: 31
+    roomType: 27
   - min: 2
     max: 4
     roomType: 15

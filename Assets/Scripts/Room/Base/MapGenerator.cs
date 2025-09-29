@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,9 @@ public class MapGenerator : MonoBehaviour
 
     private List<Room> rooms = new();
     private List<LineRenderer> lines = new();
+    public List<RoomDataSo> roomDataList = new();
+
+    private Dictionary<RoomType, RoomDataSo> roomDataDict = new();
 
     private void Awake()
     {
@@ -26,6 +30,11 @@ public class MapGenerator : MonoBehaviour
         screenWidth = screenHeight * Camera.main.aspect;
 
         columnWidth = screenWidth / (mapConfig.roomBlueprints.Count);
+
+        foreach (RoomDataSo roomData in roomDataList)
+        {
+            roomDataDict.Add(roomData.roomType, roomData);
+        }
     }
 
     private void Start()
@@ -42,7 +51,7 @@ public class MapGenerator : MonoBehaviour
         {
             var blueprint = mapConfig.roomBlueprints[column];
 
-            var amount = Random.Range(blueprint.min, blueprint.max);
+            var amount = UnityEngine.Random.Range(blueprint.min, blueprint.max);
 
             var startHeight = screenHeight / 2 - screenHeight / (amount + 1);
 
@@ -64,11 +73,13 @@ public class MapGenerator : MonoBehaviour
                 }
                 else if (column != 0)
                 {
-                    newPos.x = generatePoint.x + Random.Range(-border / 2, border / 2);
+                    newPos.x = generatePoint.x + UnityEngine.Random.Range(-border / 2, border / 2);
                 }
                 newPos.y = startHeight - roomGapY * i;
+                //¥ë©`¥à¤ò×÷³É
                 var room = Instantiate(roomPrefab, newPos, Quaternion.identity, transform);
-
+                RoomType newType=GetRandomRoomType(mapConfig.roomBlueprints[column].roomType);
+                room.SetupRoom(column,i,GetRoomData(newType));
                 rooms.Add(room);
                 currentColumnRooms.Add(room);
             }
@@ -105,11 +116,11 @@ public class MapGenerator : MonoBehaviour
     {
         Room targetRoom;
 
-        targetRoom = column2[Random.Range(0, column2.Count)];
+        targetRoom = column2[UnityEngine.Random.Range(0, column2.Count)];
 
         var line = Instantiate(linePrefab, transform);
-        line.SetPosition(0,room.transform.position);
-        line.SetPosition(1,targetRoom.transform.position);
+        line.SetPosition(0, room.transform.position);
+        line.SetPosition(1, targetRoom.transform.position);
         lines.Add(line);
         return targetRoom;
     }
@@ -132,6 +143,22 @@ public class MapGenerator : MonoBehaviour
         rooms.Clear();
         lines.Clear();
         CreateMap();
+    }
+
+    private RoomDataSo GetRoomData(RoomType roomType)
+    {
+        return roomDataDict[roomType];
+    }
+
+    private RoomType GetRandomRoomType(RoomType flags)
+    {
+        string[] options =flags.ToString().Split(',');
+
+        string randomOption = options[UnityEngine.Random.Range(0, options.Length)];
+
+        RoomType roomType = (RoomType)Enum.Parse(typeof(RoomType), randomOption);
+
+        return roomType;
     }
 }
 

@@ -7,7 +7,7 @@ public enum RoomType
 
     EliteEnemy = 2,
 
-    shop = 4,
+    Shop = 4,
 
     Treasure = 8,
 
