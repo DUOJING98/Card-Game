@@ -267,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcca1e2714a7ec547bea862e85434e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadMapEvent: {fileID: 11400000, guid: d69949e97745e1f4b94b8b53b9786034, type: 2}
 --- !u!1 &1196102560
 GameObject:
   m_ObjectHideFlags: 0
