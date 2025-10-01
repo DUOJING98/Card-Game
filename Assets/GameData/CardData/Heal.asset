@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc69037757e83242b85d58a90f15d5d, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: 
+  cardName: Heal
+  cardImage: {fileID: 21300000, guid: 51e90e2f352d93d49b72bebce22d5c10, type: 3}
+  cost: 2
+  cardType: 2
+  description: "HP\u3092<color=\"white\">3</color>\u56DE\u5FA9"
