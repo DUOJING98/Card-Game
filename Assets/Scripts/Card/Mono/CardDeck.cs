@@ -33,8 +33,8 @@ public class CardDeck : MonoBehaviour
                 drawDeck.Add(entry.cardData);
             }
         }
-
-        //TODO:シャッフル
+        //シャッフル
+        ShuffleDeck();
     }
     [ContextMenu("Test")]
     public void TestDraw()
@@ -42,17 +42,25 @@ public class CardDeck : MonoBehaviour
         DrawCard(1);
     }
 
-
+    /// <summary>
+    /// カードを引く
+    /// </summary>
+    /// <param name="amount">抽出数</param>
     private void DrawCard(int amount)
     {
         for (int i = 0; i < amount; i++)
         {
-            if (drawDeck.Count == 0)
-            {
-                //シャッフル
-            }
             CardDataSo currentCardData = drawDeck[0];
             drawDeck.RemoveAt(0);
+            //ドロー山札にカードがない場合、捨て札からシャッフルしてドロー山札に戻す
+            if (drawDeck.Count == 0)
+            {
+                foreach (var item in discardDeck)
+                {
+                    drawDeck.Add(item);
+                }
+                ShuffleDeck();
+            }
             var card = cardManager.GetCardObject().GetComponent<Card>(); //手に入れる
             //初期化
             card.Init(currentCardData);
@@ -64,7 +72,10 @@ public class CardDeck : MonoBehaviour
         }
 
     }
-
+    /// <summary>
+    /// カードのレイアウトを設定する
+    /// </summary>
+    /// <param name="delay">遅延時間</param>
     private void SetCardLayout(float delay)
     {
         for (int i = 0; i < handCardList.Count; i++)
@@ -74,15 +85,49 @@ public class CardDeck : MonoBehaviour
 
             //currentCard.transform.SetPositionAndRotation(cardTransform.pos, cardTransform.rotation);
 
-            
+            //カードを引いている
+            currentCard.isAnimating = true;
+
             currentCard.transform.DOScale(Vector3.one, 0.2f).SetDelay(delay).onComplete = () => //この行処理し終えたら、その次の行が処理される
             {
-                currentCard.transform.DOMove(cardTransform.pos, 0.6f);
+                currentCard.transform.DOMove(cardTransform.pos, 0.6f).onComplete = () => currentCard.isAnimating = false;
                 currentCard.transform.DORotateQuaternion(cardTransform.rotation, 0.5f);
             };
 
             //カードの並び順の設定
             currentCard.GetComponent<SortingGroup>().sortingOrder = i;
+            currentCard.UpdatePositionRotation(cardTransform.pos, cardTransform.rotation);
         }
+    }
+
+
+    private void ShuffleDeck()
+    {
+        discardDeck.Clear();
+        //TODO:UIの表示数を更新する
+
+        for (int i = 0; i < drawDeck.Count; i++)
+        {
+            CardDataSo temp = drawDeck[i];
+            int randomIndex = Random.Range(i, drawDeck.Count);
+            drawDeck[i] = drawDeck[randomIndex];
+            drawDeck[randomIndex] = temp;
+        }
+    }
+   
+    
+    /// <summary>
+    /// 捨て札のロジック
+    /// </summary>
+    /// <param name="card"></param>
+
+    public void DiscardCard(Card card)
+    {
+        discardDeck.Add(card.cardData);
+        handCardList.Remove(card);
+
+        cardManager.DiscardCard(card.gameObject);
+
+        SetCardLayout(0f);
     }
 }

@@ -1,14 +1,24 @@
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
-public class Card : MonoBehaviour
+
+public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Item")]
-    public TextMeshPro costText,descriptionText,typeText;
+    public TextMeshPro costText, descriptionText, typeText;
     public SpriteRenderer cardSprite;
     public CardDataSo cardData;
 
+
+    [Header("元のデータ")]
+    public Vector3 originalPosition;
+    public Quaternion originalRotation;
+    public int originalLayerOrder;
+
+    public bool isAnimating;
 
     private void Start()
     {
@@ -18,8 +28,8 @@ public class Card : MonoBehaviour
     public void Init(CardDataSo data)
     {
         cardData = data;
-        cardSprite.sprite =data.cardImage ;
-        costText.text = data.cost.ToString() ;
+        cardSprite.sprite = data.cardImage;
+        costText.text = data.cost.ToString();
         descriptionText.text = data.description;
         typeText.text = data.cardType switch
         {
@@ -28,5 +38,35 @@ public class Card : MonoBehaviour
             CardType.Abilities => "能力",
             _ => throw new System.NotImplementedException()
         };
+    }
+
+    public void UpdatePositionRotation(Vector3 position, Quaternion rotation)
+    {
+        originalPosition = position;
+        originalRotation = rotation;
+        originalLayerOrder = GetComponent<SortingGroup>().sortingOrder;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+
+        if (isAnimating) return; //移動している時には判定しない
+
+        transform.position = originalPosition + Vector3.up;
+        transform.rotation = Quaternion.identity;
+        GetComponent<SortingGroup>().sortingOrder = 20;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (isAnimating) return;//移動している時には判定しない
+        RestCardTransform();
+    }
+
+    public void RestCardTransform()
+    {
+        transform.SetPositionAndRotation(originalPosition, originalRotation);
+        GetComponent<SortingGroup>().sortingOrder = originalLayerOrder;
+        isAnimating = false;
     }
 }
