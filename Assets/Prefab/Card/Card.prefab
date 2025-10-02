@@ -1118,6 +1118,8 @@ MonoBehaviour:
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
   originalLayerOrder: 0
   isAnimating: 0
+  player: {fileID: 0}
+  discardCardEvent: {fileID: 11400000, guid: 75123eefbd8b43d4992c85d499453cb6, type: 2}
 --- !u!114 &3436890805452125232
 MonoBehaviour:
   m_ObjectHideFlags: 0

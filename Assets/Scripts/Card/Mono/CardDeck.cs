@@ -121,8 +121,10 @@ public class CardDeck : MonoBehaviour
     /// </summary>
     /// <param name="card"></param>
 
-    public void DiscardCard(Card card)
+    public void DiscardCard(object obj)
     {
+        Card card = obj as Card;
+
         discardDeck.Add(card.cardData);
         handCardList.Remove(card);
 

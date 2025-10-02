@@ -19,6 +19,10 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public int originalLayerOrder;
 
     public bool isAnimating;
+    public Player player;
+
+    [Header("イベント")]
+    public ObjectEventSo discardCardEvent;
 
     private void Start()
     {
@@ -38,6 +42,8 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             CardType.Abilities => "能力",
             _ => throw new System.NotImplementedException()
         };
+
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
     public void UpdatePositionRotation(Vector3 position, Quaternion rotation)
@@ -68,5 +74,16 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         transform.SetPositionAndRotation(originalPosition, originalRotation);
         GetComponent<SortingGroup>().sortingOrder = originalLayerOrder;
         isAnimating = false;
+    }
+
+    public void ExecuteCardEffect(CharacterBse from, CharacterBse target)
+    {
+        //TODO:対応する消費を減らす,カードの回収を通知する
+        discardCardEvent.RaisedEvent(this, this);
+
+        foreach (var eff in cardData.effects)
+        {
+            eff.Execute(from, target);
+        }
     }
 }

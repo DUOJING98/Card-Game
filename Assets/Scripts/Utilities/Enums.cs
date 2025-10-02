@@ -31,4 +31,11 @@ public enum CardType
     Abilities
 }
 
+public enum EffectTargetType
+{
+    Self,
+    Target,
+    All
+}
+
 

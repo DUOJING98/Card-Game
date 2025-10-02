@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName ="CardDataSo",menuName ="Card/CardDatoSo")]
@@ -12,5 +13,7 @@ public class CardDataSo : ScriptableObject
     [TextArea]
     public string description;
 
-    //To:
+    //ŒgÐÐ¤µ¤ì¤¿ŒgëH¤Î„¿¹û
+    public List<EffectBase> effects;
+
 }
