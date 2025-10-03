@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,8 +14,14 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private void Awake()
     {
         currentCard = GetComponent<Card>();
-    }
 
+    }
+    private void OnDisable()
+    {
+        //1仿它件玉皺賸摽卞秏尹月市奈玉及賃曰絞化
+        canMove = false;
+        canExecute = false;
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {

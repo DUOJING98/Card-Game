@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 956d107b905c3e14c94344d8674e569e, type: 3}
-  m_Name: Player HP
+  m_Script: {fileID: 11500000, guid: 0a360944dd9db884a8680a247f802e3a, type: 3}
+  m_Name: DrawCountChangedEvent
   m_EditorClassIdentifier: 
-  maxValue: 60
-  currentValue: 60
-  valueChangeEvent: {fileID: 11400000, guid: be9196f02000626478ea5e9f0833a387, type: 2}
-  description: Player HP
+  description: "\u30C9\u30ED\u30FC\u5C71\u672D\u306E\u679A\u6570\u5909\u5316\u30A4\u30D9\u30F3\u30C8"
+  lastSender: 

@@ -16,13 +16,21 @@ public class CardDeck : MonoBehaviour
 
     private List<Card> handCardList = new();        //手札(毎ターン)
 
+    [Header("イベント")]
+    public IntEventSo drawCountEvent;
+    public IntEventSo discardCountEvent;
+
 
     private void Start()
-    {           //Test
+    {
         InitializeDeck();
 
         DrawCard(3);
     }
+
+    /// <summary>
+    /// 初期化
+    /// </summary>
     public void InitializeDeck()
     {
         drawDeck.Clear();
@@ -33,8 +41,8 @@ public class CardDeck : MonoBehaviour
                 drawDeck.Add(entry.cardData);
             }
         }
-        //シャッフル
-        ShuffleDeck();
+
+        ShuffleDeck();              //シャッフル
     }
     [ContextMenu("Test")]
     public void TestDraw()
@@ -50,8 +58,8 @@ public class CardDeck : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            CardDataSo currentCardData = drawDeck[0];
-            drawDeck.RemoveAt(0);
+            
+
             //ドロー山札にカードがない場合、捨て札からシャッフルしてドロー山札に戻す
             if (drawDeck.Count == 0)
             {
@@ -61,6 +69,10 @@ public class CardDeck : MonoBehaviour
                 }
                 ShuffleDeck();
             }
+            CardDataSo currentCardData = drawDeck[0];
+            drawDeck.RemoveAt(0);
+            //UIの数値を更新する
+            drawCountEvent.RaisedEvent(drawDeck.Count, this);
             var card = cardManager.GetCardObject().GetComponent<Card>(); //手に入れる
             //初期化
             card.Init(currentCardData);
@@ -104,7 +116,9 @@ public class CardDeck : MonoBehaviour
     private void ShuffleDeck()
     {
         discardDeck.Clear();
-        //TODO:UIの表示数を更新する
+        //UIの表示数を更新する
+        drawCountEvent.RaisedEvent(drawDeck.Count, this);
+        discardCountEvent.RaisedEvent(discardDeck.Count, this);
 
         for (int i = 0; i < drawDeck.Count; i++)
         {
@@ -114,8 +128,8 @@ public class CardDeck : MonoBehaviour
             drawDeck[randomIndex] = temp;
         }
     }
-   
-    
+
+
     /// <summary>
     /// 捨て札のロジック
     /// </summary>
@@ -129,7 +143,7 @@ public class CardDeck : MonoBehaviour
         handCardList.Remove(card);
 
         cardManager.DiscardCard(card.gameObject);
-
+        discardCountEvent.RaisedEvent(discardDeck.Count, this);
         SetCardLayout(0f);
     }
 }

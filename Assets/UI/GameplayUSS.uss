@@ -1,0 +1,10 @@
+.TurnButton {
+}
+
+.TurnButton:hover {
+    scale: 1.1 1.1;
+}
+
+.TurnButton:active {
+    scale: 1.2 1.2;
+}
