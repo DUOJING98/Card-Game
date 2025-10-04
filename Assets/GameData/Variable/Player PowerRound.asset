@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 956d107b905c3e14c94344d8674e569e, type: 3}
-  m_Name: Player HP
+  m_Name: Player PowerRound
   m_EditorClassIdentifier: 
-  maxValue: 60
-  currentValue: 24
-  valueChangeEvent: {fileID: 11400000, guid: be9196f02000626478ea5e9f0833a387, type: 2}
-  description: Player HP
+  maxValue: 0
+  currentValue: 0
+  valueChangeEvent: {fileID: 0}
+  description: 

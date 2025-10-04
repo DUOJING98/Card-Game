@@ -64,7 +64,7 @@ public class CardDeck : MonoBehaviour
     /// ¥«©`¥É¤òÒý¤¯
     /// </summary>
     /// <param name="amount">³é³öÊý</param>
-    private void DrawCard(int amount)
+    public void DrawCard(int amount)
     {
         for (int i = 0; i < amount; i++)
         {

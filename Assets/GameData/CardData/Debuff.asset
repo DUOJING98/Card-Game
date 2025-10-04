@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfc69037757e83242b85d58a90f15d5d, type: 3}
-  m_Name: Heal
+  m_Name: Debuff
   m_EditorClassIdentifier: 
-  cardName: Heal
-  cardImage: {fileID: 21300000, guid: 8e1f416c7d68f5f4494ad45eee82af26, type: 3}
+  cardName: Debuff
+  cardImage: {fileID: 21300000, guid: 1508f5bbffd8d5f499d422297b332402, type: 3}
   cost: 2
-  cardType: 2
-  description: "HP\u3092<color=\"white\">5</color>\u56DE\u5FA9"
+  cardType: 0
+  description: "Target\u306E\u653B\u6483\u529B\u3092<color=\"yellow\">50\uFF05</color>\u4E0B\u3052\u308B"
   effects:
-  - {fileID: 11400000, guid: 2c955b15a0954884799a5fa417678fcd, type: 2}
+  - {fileID: 11400000, guid: 84beb31322aca7841803c3a6c1db8fb6, type: 2}

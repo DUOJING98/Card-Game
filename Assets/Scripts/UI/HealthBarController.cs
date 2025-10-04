@@ -15,6 +15,14 @@ public class HealthBarController : MonoBehaviour
     private VisualElement defenseElement;
     private Label defenseAmountLabel;
 
+    //Buff
+    private VisualElement buffElement;
+    private Label buffRound;
+
+
+    [Header("buffSprite")]
+    public Sprite buff;
+    public Sprite debuff;
     private void Awake()
     {
         currentCharacter = GetComponent<CharacterBse>();
@@ -28,6 +36,26 @@ public class HealthBarController : MonoBehaviour
     {
         UpdateHealthBar();
     }
+
+    [ContextMenu("UITest")]
+    public void InitHealthBar()
+    {
+        //UI
+        healthBarDocument = GetComponent<UIDocument>();
+        healthBar = healthBarDocument.rootVisualElement.Q<ProgressBar>("HealthBar");
+        healthBar.highValue = currentCharacter.MaxHP;
+        MoveToWorldPosition(healthBar, healthBarTransform.position, Vector2.zero);
+        //防御
+        defenseElement = healthBar.Q<VisualElement>("Defense");
+        defenseAmountLabel = defenseElement.Q<Label>("DefenseAmount");
+        defenseElement.style.display = DisplayStyle.None;
+        //buff
+        buffElement = healthBar.Q<VisualElement>("Buff");
+        buffRound = buffElement.Q<Label>("BuffRound");
+        buffElement.style.display = DisplayStyle.None;
+
+    }
+
 
     private void MoveToWorldPosition(VisualElement element, Vector3 worldPosition, Vector2 size)
     {
@@ -68,24 +96,15 @@ public class HealthBarController : MonoBehaviour
 
             //防御UIを表示するかどうか
             defenseElement.style.display = currentCharacter.defense.currentValue > 0 ? DisplayStyle.Flex : DisplayStyle.None;
-            defenseAmountLabel.text =currentCharacter.defense.currentValue.ToString();
+            defenseAmountLabel.text = currentCharacter.defense.currentValue.ToString();
+
+            //BUFF表示
+            buffElement.style.display = currentCharacter.buffRound.currentValue > 0 ? DisplayStyle.Flex : DisplayStyle.None;
+            buffRound.text = currentCharacter.buffRound.currentValue.ToString();
+            buffElement.style.backgroundImage = currentCharacter.basePower > 1 ? new StyleBackground(buff) : new StyleBackground(debuff);
         }
 
     }
 
-    [ContextMenu("UITest")]
-    public void InitHealthBar()
-    {
 
-        healthBarDocument = GetComponent<UIDocument>();
-        healthBar = healthBarDocument.rootVisualElement.Q<ProgressBar>("HealthBar");
-        healthBar.highValue = currentCharacter.MaxHP;
-        MoveToWorldPosition(healthBar, healthBarTransform.position, Vector2.zero);
-
-        defenseElement = healthBar.Q<VisualElement>("Defense");
-        defenseAmountLabel = defenseElement.Q<Label>("DefenseAmount");
-        defenseElement.style.display = DisplayStyle.None;
-
-
-    }
 }

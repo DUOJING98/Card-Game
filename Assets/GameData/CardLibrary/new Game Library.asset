@@ -15,5 +15,13 @@ MonoBehaviour:
   cardLibraryList:
   - cardData: {fileID: 11400000, guid: 77857ba631623a14a95b7e48210c7bca, type: 2}
     amount: 3
+  - cardData: {fileID: 11400000, guid: 22b419914a42a674da7f609662524266, type: 2}
+    amount: 1
+  - cardData: {fileID: 11400000, guid: 761b6a3b64042d347b41821bcf560933, type: 2}
+    amount: 1
+  - cardData: {fileID: 11400000, guid: 43dc48cc04e966c47b88470242ea5360, type: 2}
+    amount: 1
+  - cardData: {fileID: 11400000, guid: 1dae9c06ee4fd8a499a27cec3e9f505b, type: 2}
+    amount: 1
   - cardData: {fileID: 11400000, guid: bb4c5045b574ed9448b4c7d80bf6ec47, type: 2}
     amount: 3

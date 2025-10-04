@@ -21,6 +21,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - CardData
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22b419914a42a674da7f609662524266
+    m_Address: Debuff
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CardData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43dc48cc04e966c47b88470242ea5360
+    m_Address: Extra Pull
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CardData
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 761b6a3b64042d347b41821bcf560933
     m_Address: Power
     m_ReadOnly: 0
