@@ -8,16 +8,22 @@ public class SceneLoadManager : MonoBehaviour
 {
     private AssetReference currenScene;
     public AssetReference map;
-
+    private Room currentRoom;
     private Vector2Int currenRoomVector;
-    [Header("ˆó¸æ")]
+    [Header("Event")]
     public ObjectEventSo afterLoadRoomEvent;
+    public ObjectEventSo updateRoomEvent;
 
+
+    private void Start()
+    {
+        currenRoomVector = Vector2Int.one * -1;
+    }
     public async void OnLoadRoomEvent(object data)
     {
         if (data is Room)
         {
-            Room currentRoom = data as Room;
+            currentRoom = data as Room;
 
             var currentData = currentRoom.roomData;
             currenRoomVector = new(currentRoom.column, currentRoom.line);
@@ -30,7 +36,7 @@ public class SceneLoadManager : MonoBehaviour
         await UnLoadSceneTask();
         await LoadSceneTask();
 
-        afterLoadRoomEvent.RaisedEvent(currenRoomVector,this);
+        afterLoadRoomEvent.RaisedEvent(currentRoom, this);
     }
 
     private async Awaitable LoadSceneTask()
@@ -52,7 +58,10 @@ public class SceneLoadManager : MonoBehaviour
     public async void LoadMap()
     {
         await UnLoadSceneTask();
-
+        if (currenRoomVector != Vector2.one * -1)
+        {
+            updateRoomEvent.RaisedEvent(currenRoomVector, this);
+        }
         currenScene = map;
         await LoadSceneTask();
     }

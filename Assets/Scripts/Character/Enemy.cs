@@ -9,14 +9,10 @@ public class Enemy : CharacterBse
 
     protected Player player;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    }
 
     public virtual void OnPlayerTurnBegin()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         // ¥×¥ì¥¤¥ä©`¥¿©`¥óé_Ê¼•r¤Ë”³¤ÎÐÐ„Ó¤ò¥é¥ó¥À¥à¤Ë›Q¶¨¤¹¤ë
         // actionDataSo.actions ¤Î¥ê¥¹¥È¤«¤é¥é¥ó¥À¥à¤Ë1¤Ä¤Î¥¢¥¯¥·¥ç¥ó¤òßx’k¤·
         var randomIndex = Random.Range(0, actionDataSo.actions.Count);

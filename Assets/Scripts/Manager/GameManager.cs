@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,6 +34,17 @@ public class GameManager : MonoBehaviour
             var linkedRoom = mapLayout.mapRoomDataList.Find(r => r.column == link.x && r.line == link.y);
             linkedRoom.roomState = RoomState.Attainable;
         }
+
+        enemyList.Clear();
+    }
+
+    public void OnRoomLoadedEvent(object obj)
+    {
+        var enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var enemy in enemies)
+        {
+           enemyList.Add(enemy);
+        }
     }
 
 
@@ -41,7 +53,7 @@ public class GameManager : MonoBehaviour
         if (character is Player)
         {
             //失敗の通知を送る
-            gameLoseEvent.RaisedEvent(null,this);
+            StartCoroutine(EventDelayAction(gameLoseEvent));
         }
 
         if (character is Enemy)
@@ -51,8 +63,14 @@ public class GameManager : MonoBehaviour
             if (enemyList.Count == 0)
             {
                 //勝利の通知を送る
-                gameWinEvent.RaisedEvent(null,this);
+                StartCoroutine(EventDelayAction(gameWinEvent));
             }
         }
+    }
+
+    IEnumerator EventDelayAction(ObjectEventSo eventSo)
+    {
+        yield return new WaitForSeconds(1.5f);
+        eventSo.RaisedEvent(null, this);
     }
 }
