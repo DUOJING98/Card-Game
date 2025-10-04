@@ -1,33 +1,70 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class GameplayPanel : MonoBehaviour
 {
+    [Header("イベント")]
+    public ObjectEventSo playerTurnEnd;
+
+    [Header("UI")]
     private VisualElement rootElement;
-    private Label energyAmount, drawAmount, discardAmount, turnLabel;
+    private Label energyAmountLabel, drawAmountLabel, discardAmountLabel, turnLabelLabel;
     private Button endTurnButton;
+
+
     private void OnEnable()
     {
         rootElement = GetComponent<UIDocument>().rootVisualElement;
 
-        energyAmount = rootElement.Q<Label>("EnergyAmount");
-        drawAmount = rootElement.Q<Label>("DrawAmount");
-        discardAmount = rootElement.Q<Label>("DiscardAmount");
-        turnLabel = rootElement.Q<Label>("TurnLabel");
+        energyAmountLabel = rootElement.Q<Label>("EnergyAmount");
+        drawAmountLabel = rootElement.Q<Label>("DrawAmount");
+        discardAmountLabel = rootElement.Q<Label>("DiscardAmount");
+        turnLabelLabel = rootElement.Q<Label>("TurnLabel");
         endTurnButton = rootElement.Q<Button>("EndTurn");
-        energyAmount.text = "0";
-        drawAmount.text = "0";
-        discardAmount.text = "0";
-        turnLabel.text = "ゲーム開始";
+        endTurnButton.clicked += OnTurnEnd;
+
+  
+        energyAmountLabel.text = "0";
+        drawAmountLabel.text = "0";
+        discardAmountLabel.text = "0";
+        turnLabelLabel.text = "ゲーム開始";
 
     }
 
+    private void OnTurnEnd()
+    {
+        playerTurnEnd.RaisedEvent(null, this);
+    }
+
+    #region UI更新
     public void UpdateDrawDeckAmount(int amount)
     {
-        drawAmount.text = amount.ToString();
+        drawAmountLabel.text = amount.ToString();    //ドロー山札のUIを更新する
     }
     public void UpdateDiscardDeckAmount(int amount)
     {
-        discardAmount.text = amount.ToString();
+        discardAmountLabel.text = amount.ToString(); //捨て札のUIを更新する
+    }
+
+    public void UpdateEnergyAmount(int amount)
+    {
+        energyAmountLabel.text = amount.ToString();  //エネルギーのUIを更新する
+    }
+    #endregion
+    public void OnEnemyTurnBegin()
+    {
+        endTurnButton.SetEnabled(false);    //敵のターン中はボタンが無効になる
+        turnLabelLabel.text = "エネミー\nターン";
+        turnLabelLabel.style.color = new StyleColor(Color.red);
+    }
+
+
+    public void OnPlayerTurnBegin()
+    {
+        endTurnButton.SetEnabled(true);     //プレイヤーターン中はボタンが有効になる
+
+        turnLabelLabel.text = "プレイヤー\nターン";
+        turnLabelLabel.style.color = new StyleColor(Color.white);
     }
 }

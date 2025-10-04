@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a360944dd9db884a8680a247f802e3a, type: 3}
-  m_Name: DrawCountChangedEvent
+  m_Name: EnemyHealth Changed Event
   m_EditorClassIdentifier: 
-  description: "\u30C9\u30ED\u30FC\u5C71\u672D\u306E\u679A\u6570\u5909\u5316\u30A4\u30D9\u30F3\u30C8"
+  description: 
   lastSender: 

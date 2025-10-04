@@ -7,6 +7,7 @@ using DG.Tweening;
 
 public class CardDeck : MonoBehaviour
 {
+
     public CardManager cardManager;
     public CardLayoutManager layoutManager;
 
@@ -25,7 +26,7 @@ public class CardDeck : MonoBehaviour
     {
         InitializeDeck();
 
-        DrawCard(3);
+
     }
 
     /// <summary>
@@ -44,10 +45,19 @@ public class CardDeck : MonoBehaviour
 
         ShuffleDeck();              //シャッフル
     }
+
+
     [ContextMenu("Test")]
     public void TestDraw()
     {
         DrawCard(1);
+    }
+
+
+
+    public void NewTurnDrawCard()
+    {
+        DrawCard(4);
     }
 
     /// <summary>
@@ -58,7 +68,7 @@ public class CardDeck : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            
+
 
             //ドロー山札にカードがない場合、捨て札からシャッフルしてドロー山札に戻す
             if (drawDeck.Count == 0)
@@ -95,7 +105,10 @@ public class CardDeck : MonoBehaviour
             Card currentCard = handCardList[i];
             CardTransform cardTransform = layoutManager.GetCardTransform(i, handCardList.Count);
 
-            //currentCard.transform.SetPositionAndRotation(cardTransform.pos, cardTransform.rotation);
+
+            //カードのエネルギー判定
+            currentCard.UpdateCardState();
+
 
             //カードを引いている
             currentCard.isAnimating = true;
@@ -139,11 +152,23 @@ public class CardDeck : MonoBehaviour
     {
         Card card = obj as Card;
 
-        discardDeck.Add(card.cardData);
-        handCardList.Remove(card);
+        discardDeck.Add(card.cardData); //捨て札に加える
+        handCardList.Remove(card);  //手札リストから削除する
 
-        cardManager.DiscardCard(card.gameObject);
-        discardCountEvent.RaisedEvent(discardDeck.Count, this);
+        cardManager.DiscardCard(card.gameObject);      ////手札を回収する
+        discardCountEvent.RaisedEvent(discardDeck.Count, this); //捨て札に通知して、捨て札の枚数を更新する
         SetCardLayout(0f);
+    }
+
+    public void OnPlayerTurnEnd()
+    {
+        //プレイヤーのターンが終了した時、すべての手札を回収する
+        for (int i = 0; i < handCardList.Count; i++)  //現在のすべての手札をループする
+        {
+            discardDeck.Add(handCardList[i].cardData);  //現在の手札を捨て札に加える
+            cardManager.DiscardCard(handCardList[i].gameObject);    //手札を回収する
+        }
+        handCardList.Clear();   //すべての手札をクリアする
+        discardCountEvent.RaisedEvent(discardDeck.Count, this); //捨て札に通知して、捨て札の枚数を更新する
     }
 }

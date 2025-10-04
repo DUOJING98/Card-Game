@@ -19,10 +19,12 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public int originalLayerOrder;
 
     public bool isAnimating;
+    public bool isAvailable;
     public Player player;
 
     [Header("イベント")]
     public ObjectEventSo discardCardEvent;
+    public IntEventSo costEvent;
 
     private void Start()
     {
@@ -78,12 +80,19 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void ExecuteCardEffect(CharacterBse from, CharacterBse target)
     {
-        //TODO:対応する消費を減らす,カードの回収を通知する
+        //対応する消費を減らす,カードの回収を通知する
+        costEvent.RaisedEvent(cardData.cost, this);
         discardCardEvent.RaisedEvent(this, this);
 
         foreach (var eff in cardData.effects)
         {
             eff.Execute(from, target);
         }
+    }
+
+    public void UpdateCardState()
+    {
+        isAvailable = cardData.cost <= player.currentMana;
+        costText.color = isAvailable ? Color.green : Color.red; //エネルギーが足りている場合はカードのコストが緑色、足りない場合は赤色になる
     }
 }

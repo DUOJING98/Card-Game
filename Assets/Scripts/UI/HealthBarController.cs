@@ -11,11 +11,14 @@ public class HealthBarController : MonoBehaviour
     private UIDocument healthBarDocument;
     private ProgressBar healthBar;
 
+    //·ÀÓù
+    private VisualElement defenseElement;
+    private Label defenseAmountLabel;
 
     private void Awake()
     {
         currentCharacter = GetComponent<CharacterBse>();
-        
+
     }
     private void Start()
     {
@@ -39,7 +42,7 @@ public class HealthBarController : MonoBehaviour
             healthBar.style.display = DisplayStyle.None;
             return;
         }
-        if (healthBar!=null)
+        if (healthBar != null)
         {
             healthBar.title = $"{currentCharacter.CurrentHP}/{currentCharacter.MaxHP}";
             healthBar.value = currentCharacter.CurrentHP;
@@ -54,7 +57,7 @@ public class HealthBarController : MonoBehaviour
             {
                 healthBar.AddToClassList("lowHealth");
             }
-            else if(percentage < 0.6f)
+            else if (percentage < 0.6f)
             {
                 healthBar.AddToClassList("mediumHealth");
             }
@@ -62,16 +65,27 @@ public class HealthBarController : MonoBehaviour
             {
                 healthBar.AddToClassList("heightHealth");
             }
+
+            //·ÀÓùUI¤ò±íÊ¾¤¹¤ë¤«¤É¤¦¤«
+            defenseElement.style.display = currentCharacter.defense.currentValue > 0 ? DisplayStyle.Flex : DisplayStyle.None;
+            defenseAmountLabel.text =currentCharacter.defense.currentValue.ToString();
         }
+
     }
-    
+
     [ContextMenu("UITest")]
     public void InitHealthBar()
     {
 
         healthBarDocument = GetComponent<UIDocument>();
         healthBar = healthBarDocument.rootVisualElement.Q<ProgressBar>("HealthBar");
-        healthBar.highValue =currentCharacter.MaxHP;
+        healthBar.highValue = currentCharacter.MaxHP;
         MoveToWorldPosition(healthBar, healthBarTransform.position, Vector2.zero);
+
+        defenseElement = healthBar.Q<VisualElement>("Defense");
+        defenseAmountLabel = defenseElement.Q<Label>("DefenseAmount");
+        defenseElement.style.display = DisplayStyle.None;
+
+
     }
 }

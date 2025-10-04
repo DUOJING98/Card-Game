@@ -4,6 +4,7 @@ public class CharacterBse : MonoBehaviour
 {
     public int maxHP;
     public IntVariable hp;
+    public IntVariable defense;
     public int CurrentHP { get => hp.currentValue; set => hp.SetValue(value); }
     public int MaxHP { get => hp.maxValue; }
     protected Animator animator;
@@ -18,14 +19,21 @@ public class CharacterBse : MonoBehaviour
     {
         hp.maxValue = maxHP;
         CurrentHP = MaxHP;
+
+        ReDefense();
     }
 
     public virtual void TakeDamage(int damage)
     {
-        if (CurrentHP > damage)
+        // 実際のダメージ値を計算する：攻撃ダメージから防御値を引いた結果が0以上の場合はその値を使用し、0未満の場合は0にする（負のダメージを防ぐ）
+        var currentDamage = (damage - defense.currentValue) >= 0 ? (damage - defense.currentValue) : 0;
+        var currentDefense = (damage - defense.currentValue) >= 0 ? 0 : (defense.currentValue - damage);
+        defense.SetValue(currentDefense);
+
+        if (CurrentHP > currentDamage)
         {
-            CurrentHP -= damage;
-            Debug.Log("currentHP" + CurrentHP);
+            CurrentHP -= currentDamage;
+            //Debug.Log("currentHP" + CurrentHP);
         }
         else
         {
@@ -34,6 +42,15 @@ public class CharacterBse : MonoBehaviour
             isDead = true;
         }
     }
+    public void UpdateDefense(int amount)
+    {
+        var value = defense.currentValue + amount;
+        defense.SetValue(value);
+    }
 
+    public void ReDefense()
+    {
+        defense.SetValue(0);
+    }
 
 }

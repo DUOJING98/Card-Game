@@ -25,10 +25,13 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!currentCard.isAvailable) return;   //¥¨¥Í¥ë¥®©`¤¬×ã¤ê¤Ê¤¤ˆöºÏ¤Ï¥ê¥¿©`¥ó¤¹¤ë
+
+
         switch (currentCard.cardData.cardType)
         {
             case CardType.Attack:
-                currentArrow = Instantiate(ArrowPrefab,transform.position,Quaternion.identity);
+                currentArrow = Instantiate(ArrowPrefab, transform.position, Quaternion.identity);
                 break;
             case CardType.Defense:
             case CardType.Abilities:
@@ -39,6 +42,8 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!currentCard.isAvailable) return;   //¥¨¥Í¥ë¥®©`¤¬×ã¤ê¤Ê¤¤ˆöºÏ¤Ï¥ê¥¿©`¥ó¤¹¤ë
+
         if (canMove)
         {
             currentCard.isAnimating = true;
@@ -65,7 +70,9 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(currentArrow != null)
+        if (!currentCard.isAvailable) return;   //¥¨¥Í¥ë¥®©`¤¬×ã¤ê¤Ê¤¤ˆöºÏ¤Ï¥ê¥¿©`¥ó¤¹¤ë
+
+        if (currentArrow != null)
         {
             Destroy(currentArrow);
         }
