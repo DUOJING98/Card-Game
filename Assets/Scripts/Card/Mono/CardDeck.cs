@@ -181,6 +181,6 @@ public class CardDeck : MonoBehaviour
         }
 
         handCardList.Clear();
-        InitializeDeck();   //リセット
+        InitializeDeck();   //リセット 
     }
 }

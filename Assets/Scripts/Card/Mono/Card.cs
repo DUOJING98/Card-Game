@@ -93,6 +93,7 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void UpdateCardState()
     {
         isAvailable = cardData.cost <= player.currentMana;
+        //Debug.Log(player.currentMana);
         costText.color = isAvailable ? Color.green : Color.red; //エネルギーが足りている場合はカードのコストが緑色、足りない場合は赤色になる
     }
 }

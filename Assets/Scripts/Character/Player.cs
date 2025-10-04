@@ -17,7 +17,7 @@ public class Player : CharacterBse
 
     public void NewTurn()
     {
-        currentMana = maxMana;  //新しいターンでエネルギーを回復する
+        currentMana = maxMana;  //新しいターンでエネルギーを回復する 
     }
 
     public void UpdateMana(int cost)
