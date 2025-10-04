@@ -171,4 +171,16 @@ public class CardDeck : MonoBehaviour
         handCardList.Clear();   //すべての手札をクリアする
         discardCountEvent.RaisedEvent(discardDeck.Count, this); //捨て札に通知して、捨て札の枚数を更新する
     }
+
+    //すべての手札を捨てる
+    public void ReleaseAllCard(object obj)
+    {
+        foreach (var card in handCardList)
+        {
+            cardManager.DiscardCard(card.gameObject);
+        }
+
+        handCardList.Clear();
+        InitializeDeck();   //リセット
+    }
 }

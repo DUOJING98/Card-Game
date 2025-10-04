@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 956d107b905c3e14c94344d8674e569e, type: 3}
-  m_Name: Enemy PowerRound
+  m_Script: {fileID: 11500000, guid: 4c84a200d4d4f5e43b4a9a3e63e3cb5b, type: 3}
+  m_Name: GameLose Event
   m_EditorClassIdentifier: 
-  maxValue: 0
-  currentValue: 0
-  valueChangeEvent: {fileID: 11400000, guid: 55853c1678891564ba688ade9fcb01ee, type: 2}
   description: 
+  lastSender: 

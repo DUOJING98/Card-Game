@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DamageEffect", menuName = "Card Effect/DamageEffect")]
@@ -9,8 +10,9 @@ public class DamageEffect : EffectBase
         switch (targetType)
         {
             case EffectTargetType.Target:
-                target.TakeDamage(value);
-                Debug.Log($"执行了{value}点伤害!");
+                var damage = (int)math.round(value * from.basePower);
+                target.TakeDamage(damage);
+                Debug.Log($"执行了{damage}点伤害!");
                 break;
             case EffectTargetType.All:
                 foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))

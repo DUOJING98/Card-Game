@@ -1,9 +1,18 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [Header("マップ配置図")]
     public MapLayoutSo mapLayout;
+
+
+    public List<Enemy> enemyList;
+
+    [Header("Event")]
+    public ObjectEventSo gameWinEvent;
+    public ObjectEventSo gameLoseEvent;
 
     public void UpdateMapLayoutData(object value)
     {
@@ -23,6 +32,27 @@ public class GameManager : MonoBehaviour
         {
             var linkedRoom = mapLayout.mapRoomDataList.Find(r => r.column == link.x && r.line == link.y);
             linkedRoom.roomState = RoomState.Attainable;
+        }
+    }
+
+
+    public void OnCharacterDeadEvent(object character)
+    {
+        if (character is Player)
+        {
+            //失敗の通知を送る
+            gameLoseEvent.RaisedEvent(null,this);
+        }
+
+        if (character is Enemy)
+        {
+            enemyList.Remove(character as Enemy);
+
+            if (enemyList.Count == 0)
+            {
+                //勝利の通知を送る
+                gameWinEvent.RaisedEvent(null,this);
+            }
         }
     }
 }

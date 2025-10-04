@@ -2,15 +2,52 @@ using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Player player;
+    private Animator animator;
+
+    private void Awake()
     {
-        
+        player = GetComponent<Player>();
+        animator = GetComponentInChildren<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        animator.Play("sleep");
+        animator.SetBool("isSleep", true);
+    }
+
+    public void PlayerTurnBeginAnimation()
+    {
+        animator.SetBool("isSleep", false);
+        animator.SetBool("isParry", false);
+    }
+
+    public void PlayerTurnEndAnimation()
+    {
+        if (player.defense.currentValue > 0)
+        {
+            animator.SetBool("isParry", true);
+        }
+        else
+        {
+            animator.SetBool("isParry", false);
+            animator.SetBool("isSleep", true);
+        }
+    }
+
+    public void OnPlayerCardEvent(object obj)
+    {
+        Card card = obj as Card;
+        switch (card.cardData.cardType)
+        {
+            case CardType.Attack:
+                animator.SetTrigger("attack");
+                break;
+            case CardType.Defense:
+            case CardType.Abilities:
+                animator.SetTrigger("skill");
+                break;
+        }
     }
 }

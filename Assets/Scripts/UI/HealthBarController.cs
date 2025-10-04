@@ -1,9 +1,13 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class HealthBarController : MonoBehaviour
 {
     private CharacterBse currentCharacter;
+    private Enemy enemy;
+    private VisualElement intentSprite;
+    private Label intentAmount;
 
     [Header("Elements")]
     public Transform healthBarTransform;
@@ -26,6 +30,7 @@ public class HealthBarController : MonoBehaviour
     private void Awake()
     {
         currentCharacter = GetComponent<CharacterBse>();
+        enemy = GetComponent<Enemy>();
 
     }
     private void Start()
@@ -53,6 +58,11 @@ public class HealthBarController : MonoBehaviour
         buffElement = healthBar.Q<VisualElement>("Buff");
         buffRound = buffElement.Q<Label>("BuffRound");
         buffElement.style.display = DisplayStyle.None;
+
+        //EnemyIntent
+        intentSprite = healthBar.Q<VisualElement>("Intent");
+        intentAmount = intentSprite.Q<Label>("IntentAmount");
+        intentSprite.style.display = DisplayStyle.None;
 
     }
 
@@ -106,5 +116,27 @@ public class HealthBarController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// ¥×¥ì¥¤¥ä©`¥¿©`¥óé_Ê¼•r¤Ëºô¤Ó³ö¤¹
+    /// </summary>
+    public void SetIntentElement()
+    {
+        intentSprite.style.display = DisplayStyle.Flex;
 
+        intentSprite.style.backgroundImage = new StyleBackground(enemy.currentAction.intentSprite);
+
+        //¹¥“Ä¤¹¤ë¤«¤É¤¦¤«¤òÅÐ¶¨¤¹¤ë
+        var value = enemy.currentAction.effect.value;
+        if (enemy.currentAction.effect.GetType() == typeof(DamageEffect))
+        {
+            value = (int)math.round(enemy.currentAction.effect.value * enemy.basePower);
+        }
+
+        intentAmount.text = value.ToString();
+    }
+
+    public void HideIntentElement()
+    {
+        intentSprite.style.display = DisplayStyle.None;
+    }
 }
