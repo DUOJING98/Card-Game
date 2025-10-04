@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         var enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (var enemy in enemies)
         {
-           enemyList.Add(enemy);
+            enemyList.Add(enemy);
         }
     }
 
