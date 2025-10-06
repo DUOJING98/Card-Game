@@ -50,4 +50,9 @@ public class PlayerAnim : MonoBehaviour
                 break;
         }
     }
+
+    public void SetSleepAction()
+    {
+        animator.Play("death"); 
+    }
 }

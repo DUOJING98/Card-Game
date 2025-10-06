@@ -13,7 +13,8 @@ public class GameWinPanel : MonoBehaviour
     public ObjectEventSo loadMapEvent;
     public ObjectEventSo pickCardEvent;
 
-    private void Awake()
+    
+    private void OnEnable()
     {
         element = GetComponent<UIDocument>().rootVisualElement;
         pickCardButton = element.Q<Button>("PickCardButton");
@@ -25,11 +26,16 @@ public class GameWinPanel : MonoBehaviour
 
     private void OnPickCardButtonClicked()
     {
-        pickCardEvent.RaisedEvent(null,this);
+        pickCardEvent.RaisedEvent(null, this);
+        //Debug.Log()
     }
 
     private void OnBackToMapButtonClicked()
     {
-        loadMapEvent.RaisedEvent(null,this);
+        loadMapEvent.RaisedEvent(null, this);
+    }
+    public void OnFinishPickCardEvent()
+    {
+        pickCardButton.style.display = DisplayStyle.None;
     }
 }

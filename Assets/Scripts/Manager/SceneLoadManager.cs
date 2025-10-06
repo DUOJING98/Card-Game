@@ -6,8 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoadManager : MonoBehaviour
 {
+    public FadePanel fadePanel;
     private AssetReference currenScene;
+
     public AssetReference map;
+    public AssetReference menu;
+
     private Room currentRoom;
     private Vector2Int currenRoomVector;
     [Header("Event")]
@@ -15,8 +19,9 @@ public class SceneLoadManager : MonoBehaviour
     public ObjectEventSo updateRoomEvent;
 
 
-    private void Start()
+    private void Awake()
     {
+        LoadMenu();
         currenRoomVector = Vector2Int.one * -1;
     }
     public async void OnLoadRoomEvent(object data)
@@ -34,6 +39,7 @@ public class SceneLoadManager : MonoBehaviour
         }
 
         await UnLoadSceneTask();
+
         await LoadSceneTask();
 
         afterLoadRoomEvent.RaisedEvent(currentRoom, this);
@@ -46,13 +52,16 @@ public class SceneLoadManager : MonoBehaviour
 
         if (s.Status == AsyncOperationStatus.Succeeded)
         {
+            fadePanel.FadeOut(0.2f);
             SceneManager.SetActiveScene(s.Result.Scene);
         }
     }
 
     private async Awaitable UnLoadSceneTask()
     {
-        await SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        fadePanel.FadeIn(0.4f);
+        await Awaitable.WaitForSecondsAsync(0.45f);
+        await Awaitable.FromAsyncOperation(SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene()));
     }
 
     public async void LoadMap()
@@ -66,4 +75,12 @@ public class SceneLoadManager : MonoBehaviour
         await LoadSceneTask();
     }
 
+    public async void LoadMenu()
+    {
+        if (currenScene != null)
+            await UnLoadSceneTask();
+
+        currenScene = menu;
+        await LoadSceneTask();
+    }
 }

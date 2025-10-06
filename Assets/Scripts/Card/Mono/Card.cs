@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Item")]
-    public TextMeshPro costText, descriptionText, typeText;
+    public TextMeshPro costText, descriptionText, typeText, nameText;
     public SpriteRenderer cardSprite;
     public CardDataSo cardData;
 
@@ -36,6 +36,7 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         cardData = data;
         cardSprite.sprite = data.cardImage;
         costText.text = data.cost.ToString();
+        nameText.text = data.name;
         descriptionText.text = data.description;
         typeText.text = data.cardType switch
         {
@@ -78,6 +79,8 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         isAnimating = false;
     }
 
+
+
     public void ExecuteCardEffect(CharacterBse from, CharacterBse target)
     {
         //対応する消費を減らす,カードの回収を通知する
@@ -92,8 +95,9 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void UpdateCardState()
     {
+        Debug.Log("当前能量值：" + player.currentMana);
+        //var cardCost = cardData.cost;
         isAvailable = cardData.cost <= player.currentMana;
-        //Debug.Log(player.currentMana);
         costText.color = isAvailable ? Color.green : Color.red; //エネルギーが足りている場合はカードのコストが緑色、足りない場合は赤色になる
     }
 }

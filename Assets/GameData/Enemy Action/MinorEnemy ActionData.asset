@@ -19,5 +19,3 @@ MonoBehaviour:
     effect: {fileID: 11400000, guid: e2c2dc28569cfc245805e578fdfe0977, type: 2}
   - intentSprite: {fileID: 21300000, guid: 810448b82870c45058f8b2de5423274a, type: 3}
     effect: {fileID: 11400000, guid: bb25ddf19cbc8344399df712389ca33a, type: 2}
-  - intentSprite: {fileID: 21300000, guid: a34550cedb3234dc085a67e7fb9bf5c8, type: 3}
-    effect: {fileID: 11400000, guid: 6c41db228c033874388b64a81fdbc853, type: 2}

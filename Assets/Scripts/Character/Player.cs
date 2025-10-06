@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Player : CharacterBse
 {
@@ -12,12 +12,16 @@ public class Player : CharacterBse
     private void OnEnable()
     {
         playerMana.maxValue = maxMana;
-        currentMana = playerMana.maxValue;   //³õÆÚ¥¨¥Í¥ë¥®©`¤òÔO¶¨¤¹¤ë
+        currentMana = playerMana.maxValue;   //åˆæœŸã‚¨ãƒãƒ«ã‚®ãƒ¼ã‚’è¨­å®šã™ã‚‹
     }
 
     public void NewTurn()
     {
-        currentMana = maxMana;  //ĞÂ¤·¤¤¥¿©`¥ó¤Ç¥¨¥Í¥ë¥®©`¤ò»ØÍ¤¹¤ë 
+        Debug.Log($"[Energy] Before Refill: {currentMana}/{maxMana}");
+        currentMana = maxMana;  //æ–°ã—ã„ã‚¿ãƒ¼ãƒ³ã§ã‚¨ãƒãƒ«ã‚®ãƒ¼ã‚’å›å¾©ã™ã‚‹ 
+        Debug.Log($"[Energy] After  Refill: {currentMana}/{maxMana}");
+
+
     }
 
     public void UpdateMana(int cost)
@@ -27,5 +31,13 @@ public class Player : CharacterBse
         {
             currentMana = 0;
         }
+    }
+
+    public void NewGame()
+    {
+        CurrentHP = MaxHP;
+        isDead = false;
+        buffRound.currentValue = buffRound.maxValue;
+        NewTurn();
     }
 }

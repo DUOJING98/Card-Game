@@ -1,4 +1,4 @@
-using NUnit.Framework;
+ï»¿using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,14 +18,14 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     }
     private void OnDisable()
     {
-        //1¥é¥¦¥ó¥É½KÁËáá¤ËÏû¤¨¤ë¥«©`¥É¤Î¸î¤êµ±¤Æ
+        //1ãƒ©ã‚¦ãƒ³ãƒ‰çµ‚äº†å¾Œã«æ¶ˆãˆã‚‹ã‚«ãƒ¼ãƒ‰ã®å‰²ã‚Šå½“ã¦
         canMove = false;
         canExecute = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!currentCard.isAvailable) return;   //¥¨¥Í¥ë¥®©`¤¬×ã¤ê¤Ê¤¤ˆöºÏ¤Ï¥ê¥¿©`¥ó¤¹¤ë
+        if (!currentCard.isAvailable) return;   //ã‚¨ãƒãƒ«ã‚®ãƒ¼ãŒè¶³ã‚Šãªã„å ´åˆã¯ãƒªã‚¿ãƒ¼ãƒ³ã™ã‚‹
 
 
         switch (currentCard.cardData.cardType)
@@ -42,7 +42,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!currentCard.isAvailable) return;   //¥¨¥Í¥ë¥®©`¤¬×ã¤ê¤Ê¤¤ˆöºÏ¤Ï¥ê¥¿©`¥ó¤¹¤ë
+        if (!currentCard.isAvailable) return;   //ã‚¨ãƒãƒ«ã‚®ãƒ¼ãŒè¶³ã‚Šãªã„å ´åˆã¯ãƒªã‚¿ãƒ¼ãƒ³ã™ã‚‹
 
         if (canMove)
         {
@@ -70,7 +70,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!currentCard.isAvailable) return;   //¥¨¥Í¥ë¥®©`¤¬×ã¤ê¤Ê¤¤ˆöºÏ¤Ï¥ê¥¿©`¥ó¤¹¤ë
+        if (!currentCard.isAvailable) return;   //ã‚¨ãƒãƒ«ã‚®ãƒ¼ãŒè¶³ã‚Šãªã„å ´åˆã¯ãƒªã‚¿ãƒ¼ãƒ³ã™ã‚‹
 
         if (currentArrow != null)
         {

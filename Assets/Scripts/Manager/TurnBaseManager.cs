@@ -1,20 +1,20 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class TurnBaseManager : MonoBehaviour
 {
     public GameObject playerObj;
 
 
-    private bool isPlayerTurn = false;  //¥×¥ì¥¤¥ä©`¤Î¥¿©`¥ó
-    private bool isEnemyTurn = false;   //”³¤Î¥¿©`¥ó
-    public bool battleEnd = true;   //¥Ğ¥È¥ë¥Õ¥£¥Ë¥Ã¥·¥å
+    private bool isPlayerTurn = false;  //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ãƒ¼ãƒ³
+    private bool isEnemyTurn = false;   //æ•µã®ã‚¿ãƒ¼ãƒ³
+    public bool battleEnd = true;   //ãƒãƒˆãƒ«ãƒ•ã‚£ãƒ‹ãƒƒã‚·ãƒ¥
 
-    private float timeCounter;  //¥¿¥¤¥Ş©`
+    private float timeCounter;  //ã‚¿ã‚¤ãƒãƒ¼
 
     public float enemyTurnDuration;
     public float playerTurnDuration;
 
-    [Header("¥¤¥Ù¥ó¥È")]
+    [Header("ã‚¤ãƒ™ãƒ³ãƒˆ")]
     public ObjectEventSo playerTurnBegin;
     public ObjectEventSo enemyTurnBegin;
     public ObjectEventSo enemyTurnEnd;
@@ -29,9 +29,8 @@ public class TurnBaseManager : MonoBehaviour
             if (timeCounter > enemyTurnDuration)
             {
                 timeCounter = 0;
-                //¥¨¥Í¥ß©`¥¿©`¥ó¥¨¥ó¥É
+                //ã‚¨ãƒãƒŸãƒ¼ã‚¿ãƒ¼ãƒ³ã‚¨ãƒ³ãƒ‰
                 EnemyTurnEnd();
-                //¥×¥ì¥¤¥ä©`¥¿©`¥ó¥¹¥¿©`¥È
                 isPlayerTurn = true;
             }
         }
@@ -41,8 +40,9 @@ public class TurnBaseManager : MonoBehaviour
             timeCounter += Time.deltaTime;
             if (timeCounter > playerTurnDuration)
             {
-                timeCounter = 0;
+                //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¿ãƒ¼ãƒ³ã‚¹ã‚¿ãƒ¼ãƒˆ
                 PlayerTurnBegin();
+                timeCounter = 0;
                 isPlayerTurn = false;
             }
         }
@@ -59,7 +59,11 @@ public class TurnBaseManager : MonoBehaviour
 
     public void PlayerTurnBegin()
     {
-
+        var p = playerObj ? playerObj.GetComponent<Player>() : null;
+        if (p != null)
+        {
+            p.NewTurn(); // è¿™é‡Œé¢ä¼šæŠŠ currentMana = maxï¼Œå¹¶ï¼ˆå»ºè®®ï¼‰å¹¿æ’­ manaChangedEvent
+        }
         playerTurnBegin.RaisedEvent(null, this);
     }
 
@@ -95,6 +99,7 @@ public class TurnBaseManager : MonoBehaviour
 
             case RoomType.RestRoom:
                 playerObj.SetActive(true);
+                playerObj.GetComponent<PlayerAnim>().SetSleepAction();
                 break;
 
         }
@@ -106,4 +111,8 @@ public class TurnBaseManager : MonoBehaviour
         playerObj.SetActive(false);
     }
 
+    public void NewGame()
+    {
+        playerObj.GetComponent<Player>().NewGame();
+    }
 }

@@ -47,11 +47,11 @@ public class CardDeck : MonoBehaviour
     }
 
 
-    [ContextMenu("Test")]
-    public void TestDraw()
-    {
-        DrawCard(1);
-    }
+    //[ContextMenu("Test")]
+    //public void TestDraw()
+    //{
+    //    DrawCard(1);
+    //}
 
 
 
@@ -73,11 +73,23 @@ public class CardDeck : MonoBehaviour
             //ドロー山札にカードがない場合、捨て札からシャッフルしてドロー山札に戻す
             if (drawDeck.Count == 0)
             {
+                // 弃牌堆也空 → 无法抽牌，直接停止
+                if (discardDeck.Count == 0)
+                {
+                    Debug.LogWarning("No cards left to draw!");
+                    break;
+                }
                 foreach (var item in discardDeck)
                 {
                     drawDeck.Add(item);
                 }
                 ShuffleDeck();
+                // 洗牌后再检查一次是否真的有牌
+                if (drawDeck.Count == 0)
+                {
+                    Debug.LogWarning("Shuffle result is empty!");
+                    break;
+                }
             }
             CardDataSo currentCardData = drawDeck[0];
             drawDeck.RemoveAt(0);
@@ -182,5 +194,12 @@ public class CardDeck : MonoBehaviour
 
         handCardList.Clear();
         InitializeDeck();   //リセット 
+    }
+
+    public void OnDrawCardEvent(object v)
+    {
+        int amount = (int)v;
+        Debug.Log($"[CardDeck] OnDrawCardEvent received: {amount}");
+        DrawCard(amount);
     }
 }

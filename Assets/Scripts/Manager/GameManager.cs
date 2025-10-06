@@ -15,9 +15,18 @@ public class GameManager : MonoBehaviour
     public ObjectEventSo gameWinEvent;
     public ObjectEventSo gameLoseEvent;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     public void UpdateMapLayoutData(object value)
     {
         var roomVector = (Vector2Int)value;
+        if (mapLayout.mapRoomDataList.Count == 0) return;
         var currenRoom = mapLayout.mapRoomDataList.Find(r => r.column == roomVector.x && r.line == roomVector.y);
         currenRoom.roomState = RoomState.Visited;
 
@@ -56,7 +65,12 @@ public class GameManager : MonoBehaviour
             StartCoroutine(EventDelayAction(gameLoseEvent));
         }
 
-        if (character is Enemy)
+        if (character is Boss)
+        {
+            StartCoroutine(EventDelayAction(gameLoseEvent));
+        }
+
+        else if (character is Enemy)
         {
             enemyList.Remove(character as Enemy);
 
@@ -66,11 +80,22 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(EventDelayAction(gameWinEvent));
             }
         }
+
+        if (character is Boss)
+        {
+            StartCoroutine(EventDelayAction(gameLoseEvent));
+        }
     }
 
     IEnumerator EventDelayAction(ObjectEventSo eventSo)
     {
         yield return new WaitForSeconds(1.5f);
         eventSo.RaisedEvent(null, this);
+    }
+
+    public void OnNewGameEvent()
+    {
+        mapLayout.mapRoomDataList.Clear();
+        mapLayout.linePositionList.Clear();
     }
 }

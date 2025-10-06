@@ -16,10 +16,12 @@ public class CardManager : MonoBehaviour
     public CardLibrarySo currentLibrary;//½ñ¤Î¥«©`¥É¥ê¥¹¥È
 
 
+    private int previousIndex;
+
     private void Awake()
     {
         InitializeCardDataList();
-        foreach(var item in newGameLibrary.cardLibraryList)
+        foreach (var item in newGameLibrary.cardLibraryList)
         {
             currentLibrary.cardLibraryList.Add(item);
         }
@@ -30,7 +32,7 @@ public class CardManager : MonoBehaviour
         currentLibrary.cardLibraryList.Clear();
     }
 
-    
+
 
 
     private void InitializeCardDataList()
@@ -63,5 +65,40 @@ public class CardManager : MonoBehaviour
     public void DiscardCard(GameObject cardObj)
     {
         poolTool.ReturnObjectToPool(cardObj);
+    }
+
+
+    public CardDataSo GetNewCardData()
+    {
+        var randomIndex = 0;
+        do
+        {
+            randomIndex = UnityEngine.Random.Range(0, cardDataList.Count);
+        } while (previousIndex == randomIndex);
+
+        previousIndex = randomIndex;
+        return cardDataList[randomIndex];
+    }
+    /// <summary>
+    /// Ìí¼ÓÐÂ¿¨ÅÆ
+    /// </summary>
+    /// <param name="newCardData"></param>
+
+    public void AddNewCard(CardDataSo newCardData)
+    {
+        var newCard = new CardLibraryEntry
+        {
+            cardData = newCardData,
+            amount = 1
+        };
+        if (currentLibrary.cardLibraryList.Contains(newCard))
+        {
+            var target = currentLibrary.cardLibraryList.Find(t => t.cardData == newCardData);
+            target.amount++;
+        }
+        else
+        {
+            currentLibrary.cardLibraryList.Add(newCard);
+        }
     }
 }

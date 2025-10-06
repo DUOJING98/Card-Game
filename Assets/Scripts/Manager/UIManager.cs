@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     public GameObject gameWInPanel;
     public GameObject gameOverPanel;
     public GameObject pickCardPanel;
+    public GameObject RestRoomPanel;
 
 
     public void OnLoadRoomEvent(object data)
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour
             case RoomType.Treasure:
                 break;
             case RoomType.RestRoom:
+                RestRoomPanel.SetActive(true);
                 break;
         }
     }
@@ -34,6 +36,7 @@ public class UIManager : MonoBehaviour
 
     public void HideAllPanels()
     {
+        RestRoomPanel.SetActive(false);
         gameplayPanel.SetActive(false);
         gameOverPanel.SetActive(false);
         gameWInPanel.SetActive(false);
@@ -54,5 +57,10 @@ public class UIManager : MonoBehaviour
     public void OnPickCardEvent()
     {
         pickCardPanel.SetActive(true);
+    }
+
+    public void OnFinishPickCardEvent()
+    {
+        pickCardPanel.SetActive(false);
     }
 }

@@ -22,6 +22,7 @@ public class Enemy : CharacterBse
 
     public virtual void OnEnemyTurnBegin()
     {
+        ReDefense();
         switch (currentAction.effect.targetType)
         {
             case EffectTargetType.Self:
